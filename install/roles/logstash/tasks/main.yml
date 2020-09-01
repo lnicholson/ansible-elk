@@ -100,7 +100,7 @@
     body_format: json
     return_content: yes
   register: filebeatJSON_output
-  #until: '"json" in filebeatJSON_output and filebeatJSON_output.json.acknowledged == true'
+  until: '"json" in filebeatJSON_output and filebeatJSON_output.json.acknowledged == true'
   retries: 30
   delay: 10
   become: true
