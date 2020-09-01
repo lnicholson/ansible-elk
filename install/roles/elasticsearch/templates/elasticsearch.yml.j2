@@ -78,6 +78,9 @@ discovery.zen.ping.unicast.hosts: ["127.0.0.1", "[::1]"]
 #
 # For more information, consult the zen discovery module documentation.
 #
+# Setting this for ElasticSearch 7.x installations.  Otherwise, injecting beat config JSON files errors.
+discovery.type: single-node
+#
 # ---------------------------------- Gateway -----------------------------------
 #
 # Block initial recovery after a full cluster restart until N nodes are started:
