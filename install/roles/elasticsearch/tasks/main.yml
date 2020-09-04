@@ -91,13 +91,13 @@
     path: /lib64/libjli.so
   register: libjli_present
 
-- name: Apply EL symlink workaround for libjli.so
-  file:
-    src: '/usr/lib/jvm/{{libjli_location.stdout}}/jre/lib/amd64/jli/libjli.so'
-    dest: '/lib64/libjli.so'
-    state: link
-  when: libjli_present.stat.exists == true
-  become: true
+#- name: Apply EL symlink workaround for libjli.so
+#  file:
+#    src: '/usr/lib/jvm/{{libjli_location.stdout}}/jre/lib/amd64/jli/libjli.so'
+#    dest: '/lib64/libjli.so'
+#    state: link
+#  when: libjli_present.stat.exists == true
+#  become: true
 
 # this seems like a packaging bug for 6.x
 - name: Create log directory structure for ES
