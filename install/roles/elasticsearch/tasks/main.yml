@@ -85,12 +85,18 @@
   shell: "ls /usr/lib/jvm/ | grep java | grep openjdk-1"
   register: libjli_location
   become: true
+  
+- name: Check if symlink workaround library libjli.so exists
+  stat: 
+    path: /lib64/libjli.so
+  register: libjli_present
 
 - name: Apply EL symlink workaround for libjli.so
   file:
     src='/usr/lib/jvm/{{libjli_location.stdout}}/jre/lib/amd64/jli/libjli.so'
     dest='/lib64/libjli.so'
     state=link
+  when: libjli_present.stat.exists == true
   become: true
 
 # this seems like a packaging bug for 6.x
