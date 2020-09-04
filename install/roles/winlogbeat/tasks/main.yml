@@ -1,22 +1,31 @@
 #Install Winlogbeat on Windows machines
 
+- name: Check if Demoapp is Installed
+  win_service:
+    name: winlogbeat
+    register: winlogbeat_svc
+
 - name: Download the Winlogbeat to specified path only if modified
   win_get_url:
     url: https://artifacts.elastic.co/downloads/beats/winlogbeat/winlogbeat-{{ winlogbeat_version }}-windows-x86_64.zip
     dest: C:\Program Files\
     force: no
     
-- name: Recursively decompress GZ files in ApplicationLogs.zip
+- name: Recursively decompress files in Winlogbeat Zip file
   win_unzip:
     src: C:\Program Files\winlogbeat-{{ winlogbeat_version }}-windows-x86_64.zip
     dest: C:\Program Files\Winlogbeat
     recurse: yes
     delete_archive: yes
+    
+- name: Replace default Winlogbeat Config file with an environment specific configuration
+  win_template:
+    src: winlogbeat.yml.j2
+    dest: C:\Program Files\Winlogbeat\winlogbeat.yml
+    backup: yes
 
 - name: Create the Winlogbeat Service (Powershell command)
   - win_shell: C:\Program Files\Winlogbeat\install-service-winlogbeat.ps1
   
-  
 - name: Load Dashboard (Unsure if I really need this)
   - win_shell: C:\Program Files\Winlogbeat\winlogbeat.exe setup -e
-  
